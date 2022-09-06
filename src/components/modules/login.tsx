@@ -15,7 +15,7 @@ export const Login = () => {
   
   return (
     <AuthLayout>
-      <Text as="h1" fontSize="3xl" fontWeight="bold" mb="4" textAlign="center">Dashboard</Text>
+      <Text as="h1" fontSize="3xl" fontWeight="bold" mb="4" textAlign="center">Dashix</Text>
       <Flex as="form" direction="column">
         <VStack spacing="4">
           <FormControl>
@@ -36,7 +36,7 @@ export const Login = () => {
       </NextLink>
       <Text fontSize="sm" color="gray.500" textAlign="center" my="4">or</Text>
       <VStack spacing="2">
-        <Button w="100%" leftIcon={<FaGoogle />} onClick={() => signIn('google')}>Log in with Google</Button>
+        <Button w="100%" leftIcon={<FaGoogle />} onClick={() => signIn('google')}>Logar com Google</Button>
       </VStack>
     </AuthLayout>
   )

@@ -107,7 +107,7 @@ export const Aside = () => {
   return (
     <Flex as="aside" h="100%" direction="column" w={{base: '100%', lg: '60' }}>
       <Flex h="14" px="4" align="center">
-        <Text as="h1" fontSize="2xl" fontWeight="bold">Dashboard</Text>
+        <Text as="h1" fontSize="2xl" fontWeight="bold">Dashix</Text>
       </Flex>
       <VStack flex="1" spacing="2" align="flex-start" p="4">
         <NavItem href="/" currentPath={router.pathname} icon={FaHome} title="Home"/>
