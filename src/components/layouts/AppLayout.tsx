@@ -41,7 +41,7 @@ export const AppLayout = ({ title, returnPath, children }: AppLayoutProps) => {
           <Menu>
             <MenuButton as={Button} bg="transparent" px="2">
               <Flex align="center">
-              <Text>Rafael Pignataro</Text>
+              <Text>{String(session?.user?.email)}</Text>
               <Avatar src={String(session?.user?.image)} name={String(session?.user?.name)} size="sm" ml="2" />
               </Flex>
             </MenuButton>
