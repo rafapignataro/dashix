@@ -4,6 +4,7 @@ import { FaArrowLeft, FaBars, FaCog, FaExclamationTriangle, FaHome, FaSignOutAlt
 import { IconType } from 'react-icons/lib';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 
 type AppLayoutProps = {
   title?: string;
@@ -39,10 +40,10 @@ export const AppLayout = ({ title, returnPath, children }: AppLayoutProps) => {
             {title && <Text as="h2" fontSize="2xl" fontWeight="bold">{title}</Text>}
           </Flex>
           <Menu>
-            <MenuButton as={Button} bg="transparent" px="2">
+            <MenuButton as={Button} bg="transparent" px="2" rightIcon={<ChevronDownIcon />}>
               <Flex align="center">
-              <Text>{String(session?.user?.email)}</Text>
-              <Avatar src={String(session?.user?.image)} name={String(session?.user?.name)} size="sm" ml="2" />
+                <Avatar src={String(session?.user?.image)} name={String(session?.user?.name)} size="sm" mr="3" />
+                <Text>{String(session?.user?.name)}</Text>
               </Flex>
             </MenuButton>
             <MenuList>
