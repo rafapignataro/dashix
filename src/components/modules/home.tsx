@@ -29,14 +29,14 @@ import { FaArrowAltCircleDown, FaArrowAltCircleUp } from "react-icons/fa";
 
 export const Home = () => {
   return (
-    <AppLayout title="Home">
+    <AppLayout title="Welcome back, Rafael">
       <Tabs flex="1" variant="soft-rounded" colorScheme="purple" w="100%" display="flex" flexDirection="column">
         <TabList>
           <SimpleGrid columns={{ base: 2, md: 4 }} spacing="4" w="100%">
             <Tab borderRadius="md" bg="gray.50">
               <Flex w="100%" h="100%" direction="column" justify="flex-start" textAlign="left">
                 <Text>Leads</Text>
-                <Text fontSize="4xl" fontWeight="bold">389</Text>
+                <Text fontSize={{ sm: 'xl', md: '2xl', lg: '2xl', xl: '4xl' }} fontWeight="bold">389</Text>
                 <HStack mt="4">
                   <Icon as={FaArrowAltCircleUp} h="4" w="4" color="green.500" />
                   <Text>23.36%</Text>
@@ -46,7 +46,7 @@ export const Home = () => {
             <Tab borderRadius="md" bg="gray.50">
               <Flex w="100%" h="100%" direction="column" justify="flex-start" textAlign="left">
                 <Text>Leads Convertidos</Text>
-                <Text fontSize="4xl" fontWeight="bold">137</Text>
+                <Text fontSize={{ sm: 'xl', md: '2xl', lg: '2xl', xl: '4xl' }} fontWeight="bold">137</Text>
                 <HStack mt="4">
                   <Icon as={FaArrowAltCircleUp} h="4" w="4" color="green.500" />
                   <Text>14.23%</Text>
@@ -56,7 +56,7 @@ export const Home = () => {
             <Tab borderRadius="md" bg="gray.50">
               <Flex w="100%" h="100%" direction="column" justify="flex-start" textAlign="left">
                 <Text>Vendas</Text>
-                <Text fontSize="4xl" fontWeight="bold">R$ 63.574,00</Text>
+                <Text fontSize={{ sm: 'xl', md: '2xl', lg: '2xl', xl: '4xl' }} fontWeight="bold">R$ 63.574,00</Text>
                 <HStack mt="4">
                   <Icon as={FaArrowAltCircleDown} h="4" w="4" color="red.500" />
                   <Text>6.56%</Text>
@@ -66,7 +66,7 @@ export const Home = () => {
             <Tab borderRadius="md" bg="gray.50">
               <Flex w="100%" h="100%" direction="column" justify="flex-start" textAlign="left">
                 <Text>Custos</Text>
-                <Text fontSize="4xl" fontWeight="bold">R$ 38.429,00</Text>
+                <Text fontSize={{ sm: 'xl', md: '2xl', lg: '2xl', xl: '4xl' }} fontWeight="bold">R$ 38.429,00</Text>
                 <HStack mt="4">
                   <Icon as={FaArrowAltCircleUp} h="4" w="4" color="green.500" />
                   <Text>38.23%</Text>
