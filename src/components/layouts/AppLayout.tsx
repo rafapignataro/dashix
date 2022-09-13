@@ -119,7 +119,7 @@ export const Aside = () => {
         {['SUPER_ADMIN', 'ADMIN'].includes(String(user?.role)) && <NavItem href="/users" currentPath={router.pathname} icon={FaUser} title="Usuários"/>}
       </VStack>
       <VStack spacing="2" align="flex-start" p="4">
-        <Button w="100%" colorScheme="gray" variant="solid" size="sm" leftIcon={<Icon as={FaExclamationTriangle}/>} onClick={onOpen}>Reportar um problema</Button>
+        <Button w="100%" colorScheme="gray" variant="solid" leftIcon={<Icon as={FaExclamationTriangle}/>} onClick={onOpen}>Reportar um problema</Button>
       </VStack>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
