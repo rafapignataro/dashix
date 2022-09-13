@@ -2,12 +2,15 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import EmailProvider from 'next-auth/providers/email';
-import sendgridMailer from '@sendgrid/mail'
+import sendgridMailer from '@sendgrid/mail';
+import getConfig from 'next/config'
+import path from 'path';
 
 sendgridMailer.setApiKey(String(process.env.SMTP_PASSWORD));
 
 import { prisma } from "../../../providers/prisma";
 import { emailFrom, emailServer } from "../../../providers/sendgrid";
+import { templateProvider } from "../../../providers/templateProvider";
 
 export const nextAuthOptions: NextAuthOptions = {
   providers: [
@@ -23,19 +26,21 @@ export const nextAuthOptions: NextAuthOptions = {
         url,
       }) => {
         try {
+          const { serverRuntimeConfig } = getConfig()
+
+          const templatePath = path.join(serverRuntimeConfig.PROJECT_ROOT, 'src', 'providers', 'templateProvider', 'templates', 'emailVerification.hbs');
+          const html = await templateProvider(templatePath, {
+            redirectUrl: url
+          });
+
           await sendgridMailer.send({
             to: identifier,
             from: 'rafapignataro@gmail.com',
             subject: 'Dashix: Faça o Log In',
-            html: `
-              <div>
-                <h1>Dashix</h1>
-                <a href=${url} style="background-color: #805AD5; width: 30%; padding: 6px 10px; border-radius: 8px;">LOGIN</a>
-                <p>Se você não solicitou esse e-mail, você pode ignorá-lo.</p>
-              </div>
-            `,
+            html,
           });
         } catch (err: any) {
+          console.log(err)
           throw new Error('EMAIL_VERIFICATION_REQUEST_ERROR', err);
         }
       }
@@ -71,7 +76,8 @@ export const nextAuthOptions: NextAuthOptions = {
   },
   pages: {
     verifyRequest: '/emailVerification',
-    error: '/login'
+    error: '/login',
+    signOut: '/logout'
   }
 }
 
