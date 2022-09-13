@@ -1,5 +1,7 @@
-import { Avatar, Box, Button, Flex, FormControl, FormLabel, HStack, Icon, Input, Select, SimpleGrid, Stat, StatArrow, StatGroup, StatHelpText, StatLabel, StatNumber, Tab, TabList, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react"
+import { Box, Flex, HStack, Icon, Select, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react"
 import { AppLayout } from "../layouts/AppLayout"
+import { FaArrowAltCircleDown, FaArrowAltCircleUp } from "react-icons/fa";
+import { useSession } from "next-auth/react";
 
 import {
   Chart as Chartjs,
@@ -24,12 +26,14 @@ Chartjs.register(
   Filler
 );
 
-import { Bar, Line, Scatter, Bubble } from 'react-chartjs-2';
-import { FaArrowAltCircleDown, FaArrowAltCircleUp } from "react-icons/fa";
+import { Line } from 'react-chartjs-2';
+
 
 export const Home = () => {
+  const { data: session } = useSession();
+
   return (
-    <AppLayout title="Welcome back, Rafael">
+    <AppLayout title={`Bem vindo, ${session?.user.name?.split(' ')[0]}`}>
       <Tabs flex="1" variant="soft-rounded" colorScheme="purple" w="100%" display="flex" flexDirection="column">
         <TabList>
           <SimpleGrid columns={{ base: 2, md: 4 }} spacing="4" w="100%">
