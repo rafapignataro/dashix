@@ -55,8 +55,6 @@ export const nextAuthOptions: NextAuthOptions = {
 
       if(!user) return false;
 
-      console.log(123, user)
-      console.log(params.user)
       return true;
     }
   },
