@@ -8,7 +8,7 @@ import { trpc } from "../../../../utils/trpc";
 
 export const QueryUsers = () => {
   const { data: users } = trpc.useQuery(['users.findAll']);
-  
+
   return (
     <AppLayout title="Usuários">
       <Flex align="center" justify="space-between" mb="4">

@@ -1,9 +1,10 @@
 import { Flex, TableContainer, Table, Thead, Tr, Th, Tbody, Td, HStack, Button, Icon, IconButton, Text, Tag, Avatar } from "@chakra-ui/react"
-import { ColumnDef, createColumnHelper, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
+import { ColumnDef, createColumnHelper, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
 import { FaPen } from "react-icons/fa";
 import NextLink from 'next/link';
 
 import { User } from '../../../../server/entities';
+import { useMemo } from "react";
 
 const columnHelper = createColumnHelper<User>();
 
@@ -12,7 +13,7 @@ type UsersTableProps = {
 }
 
 export const UsersTable = ({ users }: UsersTableProps) => {
-  const columns: ColumnDef<User>[] = [
+  const columns: ColumnDef<User>[] = useMemo(() => [
     columnHelper.display({
       id: 'actions',
       header: () => <p></p>,
@@ -48,62 +49,70 @@ export const UsersTable = ({ users }: UsersTableProps) => {
       header: () => 'EMAIL',
       cell: info => info.row.original.email,
     }),
-  ]
+  ], [])
 
   const table = useReactTable({
     data: users,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: {
+        pageIndex: 0,
+        pageSize: 10
+      }
+    },
+    autoResetPageIndex: false
   });
-  
+
   return (
     <Flex flex="1" overflowY="hidden" direction="column" w="100%">
-        <TableContainer overflowY="scroll" borderRadius="md">
-          <Table size="md" >
-            <Thead bg="gray.50">
-              {table.getHeaderGroups().map(headerGroup => (
-                <Tr key={headerGroup.id}>
-                  {headerGroup.headers.map(header => (
-                    <Th key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </Th>
-                  ))}
-                </Tr>
-              ))}
-            </Thead>
-            <Tbody>
-              {table.getRowModel().rows.map(row => (
-                <Tr key={row.id}>
-                  {row.getVisibleCells().map(cell => (
-                    <Td key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </Td>
-                  ))}
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-        <Flex align="center" justify="space-between" mt="4">
-          <Button 
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Anterior
-          </Button>
-          <Text>Página <b>{table.getState().pagination.pageIndex + 1}</b> de <b>{table.getPageCount()}</b></Text>
-          <Button 
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Próxima
-          </Button>
-        </Flex>
+      <TableContainer overflowY="scroll" borderRadius="md" flex="1">
+        <Table size="md" >
+          <Thead bg="gray.50">
+            {table.getHeaderGroups().map(headerGroup => (
+              <Tr key={headerGroup.id}>
+                {headerGroup.headers.map(header => (
+                  <Th key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </Th>
+                ))}
+              </Tr>
+            ))}
+          </Thead>
+          <Tbody>
+            {table.getRowModel().rows.map(row => (
+              <Tr key={row.id}>
+                {row.getVisibleCells().map(cell => (
+                  <Td key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Td>
+                ))}
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+      <Flex align="center" justify="space-between" mt="4">
+        {table.getState().pagination.pageIndex > 1 ? <Button 
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Anterior
+        </Button> : <div />}
+        <Text>Página <b>{table.getState().pagination.pageIndex + 1}</b> de <b>{table.getPageCount()}</b></Text>
+        <Button 
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Próxima
+        </Button>
       </Flex>
+    </Flex>
   )
 }
