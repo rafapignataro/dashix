@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextPage } from 'next'
 
 import { getServerSession } from '../../utils/getServerSession'
 
-import { CreateUser } from '../../components/modules/Users/mutate'
+import { CreateUser } from '../../components/modules/users/mutate'
 import { serverRedirect } from '../../utils/serverRedirect'
 
 const CreateUserPage: NextPage = () => <CreateUser />

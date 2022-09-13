@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextPage } from 'next'
 
 import { getServerSession } from '../../utils/getServerSession'
 
-import { QueryUsers } from '../../components/modules/Users/query'
+import { QueryUsers } from '../../components/modules/users/query'
 import { serverRedirect } from '../../utils/serverRedirect'
 
 const UsersPage: NextPage = () => <QueryUsers />

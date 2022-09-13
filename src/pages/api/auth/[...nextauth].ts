@@ -35,7 +35,7 @@ export const nextAuthOptions: NextAuthOptions = {
               </div>
             `,
           });
-        } catch (err) {
+        } catch (err: any) {
           throw new Error('EMAIL_VERIFICATION_REQUEST_ERROR', err);
         }
       }

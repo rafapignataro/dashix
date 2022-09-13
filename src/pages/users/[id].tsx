@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextPage } from 'next'
 
 import { getServerSession } from '../../utils/getServerSession'
 
-import { UpdateUser } from '../../components/modules/Users/mutate';
+import { UpdateUser } from '../../components/modules/users/mutate';
 import { serverRedirect } from '../../utils/serverRedirect';
 
 type UpdateUserPageProps = {
