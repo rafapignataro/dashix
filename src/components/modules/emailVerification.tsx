@@ -1,0 +1,20 @@
+import NextLink from 'next/link';
+import { Box, Button, Divider, Flex, FormControl, FormLabel, Input, Link, Text, VStack } from "@chakra-ui/react"
+import { FaGoogle } from 'react-icons/fa';
+import { useSession, signIn, signOut } from "next-auth/react"
+
+import { AuthLayout } from "../layouts/AuthLayout"
+
+export const EmailVerification = () => {
+  return (
+    <AuthLayout>
+      <Text as="h1" fontSize="3xl" fontWeight="bold" mb="10 " textAlign="center">Dashix</Text>
+      <Text as="h2" fontSize="xl" fontWeight="bold" mb="2" textAlign="center">
+        Cheque seu e-mail!
+      </Text>
+      <Text as="h3" fontSize="xl" textAlign="center">
+        Um link de acesso foi enviado para sua caixa de entrada!
+      </Text>
+    </AuthLayout>
+  )
+}

@@ -149,13 +149,17 @@ export const Chart = () => {
   return (
     <Line 
       data={{ 
-        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho'],
+        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto'],
         datasets: [
           {
             data: getRandom7(),
             label: 'Leads',
             borderColor: '#d6bcfa',
             backgroundColor: '#44337a',
+            pointBorderWidth: 2,
+            pointBackgroundColor: '#d6bcfa',
+            pointBorderColor: '#44337a',
+            pointRadius: 6, 
             tension: 0.3,
             fill: {
               target: 'origin',

@@ -1,51 +1,31 @@
 import type { GetServerSideProps, NextPage } from 'next'
 
-import { getServerSession } from '../../utils/helpers/getServerSession'
+import { getServerSession } from '../../utils/getServerSession'
 
-import { UpdateUser } from '../../components/modules/Users/Update';
-
-type User = {
-  id: string;
-  name: string;
-  email: string;
-  createdAt: string;
-  permission: string;
-}
-
+import { UpdateUser } from '../../components/modules/Users/mutate';
+import { serverRedirect } from '../../utils/serverRedirect';
 
 type UpdateUserPageProps = {
-  user: User;
+  id: string;
 }
 
-const UpdateUserPage: NextPage<UpdateUserPageProps> = ({ user }: UpdateUserPageProps) => <UpdateUser user={user}/>
+const UpdateUserPage: NextPage<UpdateUserPageProps> = ({ id }: UpdateUserPageProps) => <UpdateUser id={id} />
 
 export default UpdateUserPage
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerSession(ctx);
 
-  if(!session) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-      props: {}
-    }
-  }
+  if(!session || !session.user) return serverRedirect('/login')
+
+  if (!['SUPER_ADMIN', 'ADMIN'].includes(session.user.role)) return serverRedirect('/');
 
   const { id } = ctx.query;
 
   return {
     props: {
       session,
-      user: {
-        id,
-        name: 'Rafael Mira Pignataro',
-        email: 'rafapignataro@gmail.com',
-        createdAt: '18:47 04/09/2022',
-        permission: 'admin',
-      },
+      id
     }
   }
 }

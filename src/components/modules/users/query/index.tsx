@@ -2,10 +2,13 @@ import { Flex, InputGroup, InputLeftElement, Icon, Input, Button } from "@chakra
 import { FaSearch, FaPlus } from "react-icons/fa"
 import NextLink from 'next/link';
 
-import { AppLayout } from "../../../layouts/AppLayout"
+import { AppLayout, Loading } from "../../../layouts/AppLayout"
 import { UsersTable } from "./Table"
+import { trpc } from "../../../../utils/trpc";
 
-export const ShowUsers = () => {
+export const QueryUsers = () => {
+  const { data: users } = trpc.useQuery(['users.findAll']);
+  
   return (
     <AppLayout title="Usuários">
       <Flex align="center" justify="space-between" mb="4">
@@ -21,7 +24,7 @@ export const ShowUsers = () => {
           </Button>
         </NextLink>
       </Flex>
-      <UsersTable />
+      {users ? <UsersTable users={users} /> : <Loading /> }
     </AppLayout>
   )
 }

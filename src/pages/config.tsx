@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next'
 
 import { Config } from '../components/modules/config'
-import { getServerSession } from '../utils/helpers/getServerSession'
+import { getServerSession } from '../utils/getServerSession'
 
 const ConfigPage: NextPage = () => <Config />
 

@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from 'next'
 
 import { Login } from '../components/modules/login'
-import { getServerSession } from '../utils/helpers/getServerSession'
+import { getServerSession } from '../utils/getServerSession'
 
 const LoginPage: NextPage = () => <Login />
 

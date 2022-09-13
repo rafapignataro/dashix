@@ -1,3 +1,16 @@
+# Dashix
+
+Libraries/techonologies:
+
+- NextJS
+- Trpc
+- Prisma
+- Next Auth
+- React Query
+- Sendgrid
+- React Charts 2
+- React Table
+
 ## Getting Started
 
 First, run the development server:

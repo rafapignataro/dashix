@@ -1,28 +1,28 @@
 import type { GetServerSideProps, NextPage } from 'next'
 
-import { Home } from '../components/modules/home'
+import { EmailVerification } from '../components/modules/emailVerification'
 import { getServerSession } from '../utils/getServerSession'
 
-const HomePage: NextPage = () => <Home />
+const emailVerificationPage: NextPage = () => <EmailVerification />
 
-export default HomePage
+export default emailVerificationPage
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getServerSession(ctx);
 
-  if(!session) {
+  if(session) {
     return {
       redirect: {
-        destination: '/login',
+        destination: '/',
         permanent: false,
       },
-      props: {}
+      props: {
+        session
+      }
     }
   }
 
   return {
-    props: {
-      session,
-    }
+    props: { }
   }
 }

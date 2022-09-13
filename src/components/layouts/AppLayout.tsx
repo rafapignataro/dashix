@@ -1,10 +1,11 @@
 import NextLink from 'next/link';
-import { Avatar, Button, Drawer, DrawerContent, DrawerOverlay, Flex, FormControl, FormLabel, HStack, Icon, IconButton, Input, Link, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Textarea, useBreakpointValue, useDisclosure, VStack } from "@chakra-ui/react"
+import { Avatar, Button, CircularProgress, Drawer, DrawerContent, DrawerOverlay, Flex, FlexProps, FormControl, FormLabel, HStack, Icon, IconButton, Input, Link, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Textarea, useBreakpointValue, useDisclosure, VStack } from "@chakra-ui/react"
 import { FaArrowLeft, FaBars, FaCog, FaExclamationTriangle, FaHome, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { IconType } from 'react-icons/lib';
 import { useRouter } from 'next/router';
 import { signOut, useSession } from 'next-auth/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import { useUser } from '../../hooks/useUser';
 
 type AppLayoutProps = {
   title?: string;
@@ -13,9 +14,11 @@ type AppLayoutProps = {
 }
 
 export const AppLayout = ({ title, returnPath, children }: AppLayoutProps) => {
-  const { data: session } = useSession();
+  const { loading, user } = useUser();
   const isMobile = useBreakpointValue({ base: true, lg: false,  });
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  if (loading) return <Loading size="100px" height="100vh" />;
 
   return (
     <Flex h="100vh">
@@ -42,8 +45,8 @@ export const AppLayout = ({ title, returnPath, children }: AppLayoutProps) => {
           <Menu>
             <MenuButton as={Button} bg="transparent" px="2" rightIcon={<ChevronDownIcon />}>
               <Flex align="center">
-                <Avatar src={String(session?.user?.image)} name={String(session?.user?.name)} size="sm" mr="3" />
-                <Text>{String(session?.user?.name)}</Text>
+                <Avatar src={String(user?.image)} name={String(user?.name)} size="sm" mr="3" />
+                <Text>{String(user?.name)}</Text>
               </Flex>
             </MenuButton>
             <MenuList>
@@ -104,6 +107,7 @@ export const NavItem = ({ currentPath, href,  icon, title }: NavItemProps) => {
 export const Aside = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { loading, user } = useUser();
 
   return (
     <Flex as="aside" h="100%" direction="column" w={{base: '100%', lg: '60' }}>
@@ -111,8 +115,8 @@ export const Aside = () => {
         <Text as="h1" fontSize="2xl" fontWeight="bold">Dashix</Text>
       </Flex>
       <VStack flex="1" spacing="2" align="flex-start" p="4">
-        <NavItem href="/" currentPath={router.pathname} icon={FaHome} title="Home"/>
-        <NavItem href="/users" currentPath={router.pathname} icon={FaUser} title="Usuários"/>
+        {['SUPER_ADMIN', 'ADMIN', 'USER'].includes(String(user?.role)) && <NavItem href="/" currentPath={router.pathname} icon={FaHome} title="Home"/>}
+        {['SUPER_ADMIN', 'ADMIN'].includes(String(user?.role)) && <NavItem href="/users" currentPath={router.pathname} icon={FaUser} title="Usuários"/>}
       </VStack>
       <VStack spacing="2" align="flex-start" p="4">
         <Button w="100%" colorScheme="gray" variant="solid" size="sm" leftIcon={<Icon as={FaExclamationTriangle}/>} onClick={onOpen}>Reportar um problema</Button>
@@ -139,6 +143,14 @@ export const Aside = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
+    </Flex>
+  )
+}
+
+export const Loading = ({ size = '50px', ...props }: FlexProps & { size?: string }) => {
+  return (
+    <Flex flex="1" justify="center" align="center" w="100%" {...props}>
+      <CircularProgress isIndeterminate size="100px" color="purple.500"/>
     </Flex>
   )
 }
