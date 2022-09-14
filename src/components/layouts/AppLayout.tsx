@@ -110,7 +110,7 @@ export const Aside = () => {
   const { loading, user } = useUser();
 
   return (
-    <Flex as="aside" h="100%" direction="column" w={{base: '100%', lg: '60' }}>
+    <Flex as="aside" h="100%" direction="column" w={{ base: '100%', lg: '60' }}>
       <Flex h="14" px="4" align="center">
         <Text as="h1" fontSize="2xl" fontWeight="bold">Dashix</Text>
       </Flex>

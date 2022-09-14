@@ -1,6 +1,5 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth, { NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
 import EmailProvider from 'next-auth/providers/email';
 import sendgridMailer from '@sendgrid/mail';
 import getConfig from 'next/config'
@@ -14,10 +13,6 @@ import { templateProvider } from "../../../providers/templateProvider";
 
 export const nextAuthOptions: NextAuthOptions = {
   providers: [
-    GoogleProvider({
-      clientId: String(process.env.GOOGLE_CLIENT_ID),
-      clientSecret: String(process.env.GOOGLE_CLIENT_SECRET)
-    }),
     EmailProvider({
       server: emailServer,
       from: emailFrom,

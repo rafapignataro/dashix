@@ -1,7 +1,4 @@
-import NextLink from 'next/link';
-import { Box, Button, Divider, Flex, FormControl, FormLabel, Input, Link, Text, VStack } from "@chakra-ui/react"
-import { FaGoogle } from 'react-icons/fa';
-import { useSession, signIn, signOut } from "next-auth/react"
+import { Text } from "@chakra-ui/react"
 
 import { AuthLayout } from "../layouts/AuthLayout"
 
