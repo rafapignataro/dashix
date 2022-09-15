@@ -26,10 +26,10 @@ export const Table = <T extends {}>({ data, columns }: TableProps<T>) => {
   if (!data) return <Loading />
 
   return (
-    <Flex flex="1" overflowY="hidden" direction="column" w="100%" bg="white">
-      <TableContainer overflowY="scroll" borderRadius="md" flex="1">
+    <Flex flex="1" overflowY="hidden" direction="column" w="100%">
+      <TableContainer overflowY="scroll" borderRadius="md" flex="1"  bg="white">
         <ChakraTable size="md" >
-          <Thead bg="gray.100">
+          <Thead bg="gray.100" position="sticky">
             {table.getHeaderGroups().map(headerGroup => (
               <Tr key={headerGroup.id}>
                 {headerGroup.headers.map(header => (

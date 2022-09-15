@@ -86,19 +86,17 @@ export const NavItem = ({ currentPath, href,  icon, title }: NavItemProps) => {
 
   if((href === '/' && currentPath === '/') || pathNodes.includes(href.split('/')[1])) return (
     <NextLink href={href} passHref>
-      <Link display="flex" alignItems="center" bg="brand.100" _hover={{ bg: 'brand.200' }} w="100%" p="2" borderRadius="md">
-        <Icon as={icon} h="6" w="6" mr="4" color="brand.700" />
-        <Text color="brand.700" >{title}</Text>
-      </Link>
+      <Button as={'a'} colorScheme="gray" w="100%" bg="gray.200" justifyContent="flex-start" leftIcon={<Icon as={icon} h="5" w="5" mr="4"/>}>
+        {title}
+      </Button>
     </NextLink>
   )
 
   return (
     <NextLink href={href} passHref>
-      <Link display="flex" alignItems="center" _hover={{ bg: 'gray.200' }} w="100%" p="2" borderRadius="md">
-        <Icon as={icon} h="6" w="6" mr="4"/>
-        <Text>{title}</Text>
-      </Link>
+      <Button as={'a'} variant="ghost" w="100%" justifyContent="flex-start" leftIcon={<Icon as={icon} h="5" w="5" mr="4" color="gray.500"/>}>
+        {title}
+      </Button>
     </NextLink>
   )
 }
@@ -113,7 +111,7 @@ export const Aside = () => {
       <Flex h="14" px="4" align="center">
         <Text as="h1" fontSize="2xl" fontWeight="bold">Dashix</Text>
       </Flex>
-      <VStack flex="1" spacing="2" align="flex-start" p="4">
+      <VStack flex="1" spacing="4" align="flex-start" p="4">
         {['SUPER_ADMIN', 'ADMIN', 'USER'].includes(String(user?.role)) && <NavItem href="/" currentPath={router.pathname} icon={FaHome} title="Home"/>}
         {['SUPER_ADMIN', 'ADMIN'].includes(String(user?.role)) && <NavItem href="/users" currentPath={router.pathname} icon={FaUser} title="Usuários"/>}
         {['SUPER_ADMIN', 'ADMIN', 'USER'].includes(String(user?.role)) && <NavItem href="/partners" currentPath={router.pathname} icon={FaUser} title="Habilitados"/>}
