@@ -70,3 +70,18 @@ enum Role {
 }
 
 // Project Models
+model Partner {
+  id        String  @id @default(cuid())
+  name      String
+  email     String
+  ddd       String
+  phone     String
+  address   String
+  city      String
+  stateId   String
+  space     String?
+  instagram String?
+  createdAt String
+
+  @@map("partners")
+}
