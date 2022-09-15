@@ -42,7 +42,7 @@ export const AppLayout = ({ title, returnPath, children }: AppLayoutProps) => {
             {title && <Text as="h2" fontSize="2xl" fontWeight="bold">{title}</Text>}
           </Flex>
           <Menu>
-            <MenuButton as={Button} bg="transparent" px="0" rightIcon={!isMobile ? <ChevronDownIcon /> : null}>
+            <MenuButton as={Button} bg="transparent" px={{ base: 0, md: 1 }} rightIcon={!isMobile ? <ChevronDownIcon /> : null}>
               <Flex align="center">
                 <Avatar src={String(user?.image)} name={String(user?.name)} size="sm" mr={{ base: 0, md:  3 }} />
                 {!isMobile && <Text>{String(user?.name)}</Text>}
