@@ -1,7 +1,7 @@
 import { Tabs, TabList, Tab, TabPanels, TabPanel, HStack, Flex, Avatar, VStack, FormControl, FormLabel, Input, Button } from "@chakra-ui/react"
 import { useSession } from "next-auth/react";
 
-import { AppLayout } from "../layouts/AppLayout"
+import { AppLayout } from "@layouts/AppLayout"
 
 export const Config = () => {
   const { data: session } = useSession();
@@ -18,15 +18,15 @@ export const Config = () => {
         <TabPanels mt="4"  h="90%">
           <TabPanel>
             <Flex direction="column">
-              <Avatar src={String(session?.user?.image)} size="2xl" mb="4"/>
+              <Avatar src={String(session?.user?.image)} name={String(session?.user?.name)}size="2xl" mb="4"/>
               <VStack>
                 <FormControl>
                   <FormLabel htmlFor="name">Nome</FormLabel>
-                  <Input id="name" name="name" placeholder="Nome" value={String(session?.user?.email)}/>
+                  <Input id="name" name="name" placeholder="Nome" value={String(session?.user?.name)}/>
                 </FormControl>
                 <FormControl>
-                  <FormLabel htmlFor="name">Nome</FormLabel>
-                  <Input id="name" name="name" placeholder="Nome" value={String(session?.user?.email)}/>
+                  <FormLabel htmlFor="email">Email</FormLabel>
+                  <Input id="email" name="email" type="email" placeholder="Nome" value={String(session?.user?.email)}/>
                 </FormControl>
               </VStack>
               <Flex align="center" justify="flex-end" mt="6" w="100%">
