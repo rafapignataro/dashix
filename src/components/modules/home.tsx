@@ -1,12 +1,14 @@
-import { Box, Flex, HStack, Icon, Select, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react"
-import { FaArrowAltCircleDown, FaArrowAltCircleUp } from "react-icons/fa";
+import { Avatar, Box, Flex, Grid, GridItem, HStack, Icon, Link, Select, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, Text, VStack } from "@chakra-ui/react"
 import { useSession } from "next-auth/react";
+import NextLink from 'next/link';
+import { useMemo } from 'react'
 
 import { AppLayout } from "@layouts/AppLayout"
 
 import {
   Chart as Chartjs,
   CategoryScale,
+  ArcElement,
   LinearScale,
   PointElement,
   LineElement,
@@ -21,128 +23,215 @@ Chartjs.register(
   LinearScale,
   PointElement,
   LineElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend,
   Filler
 );
 
-import { Line } from 'react-chartjs-2';
+import { Line, Pie } from 'react-chartjs-2';
 
 import { colorTheme } from "../../styles/theme";
 
+{/* 
+  <Text fontSize={{ sm: 'xl', md: '2xl', lg: '2xl', xl: '4xl' }} fontWeight="bold">389</Text>
+  <HStack mt="4">
+    <Icon as={FaArrowAltCircleUp} h="4" w="4" color="green.500" />
+    <Text>23.36%</Text>
+  </HStack> 
+*/}
 
 export const Home = () => {
   const { data: session } = useSession();
 
   return (
     <AppLayout title={`Bem vindo, ${session?.user.name?.split(' ')[0]}`}>
-      <Tabs flex="1" variant="soft-rounded" colorScheme="brand" w="100%" display="flex" flexDirection="column">
-        <TabList>
-          <SimpleGrid columns={{ base: 2, md: 4 }} spacing="4" w="100%">
-            <Tab borderRadius="md" bg="gray.50">
-              <Flex w="100%" h="100%" direction="column" justify="flex-start" textAlign="left">
-                <Text>Leads</Text>
-                <Text fontSize={{ sm: 'xl', md: '2xl', lg: '2xl', xl: '4xl' }} fontWeight="bold">389</Text>
-                <HStack mt="4">
-                  <Icon as={FaArrowAltCircleUp} h="4" w="4" color="green.500" />
-                  <Text>23.36%</Text>
+      <Grid templateColumns="1fr 1fr 1fr" templateRows="1fr 1fr" gap="4" h="100%">
+        <GridItem colSpan={2} rowSpan={1}>
+          <Tabs 
+            flex="1" 
+            variant="soft-rounded" 
+            colorScheme="brand"
+            bg="white"
+            p="4"
+            height="100%"
+            width="100%"
+            display="flex" 
+            flexDirection="column"
+            borderRadius="lg"
+          >
+            <TabList>
+              <Flex align="center" justify="space-between" w="100%">
+                <HStack>
+                  <Tab borderRadius="md">
+                    Leads
+                  </Tab>
+                  <Tab borderRadius="md">
+                    Leads Convertidos
+                  </Tab>
+                  <Tab borderRadius="md">
+                    Vendas
+                  </Tab>
+                  <Tab borderRadius="md">
+                    Custos
+                  </Tab>
                 </HStack>
+                <Select placeholder="Selecione um período" defaultValue="6" w={{ base: '100%', md: '52' }} bg="white">
+                  <option value="6">Últimos 6 meses</option>
+                  <option value="12">Últimos 12 meses</option>
+                  <option value="24">Últimos 24 meses</option>
+                </Select>
               </Flex>
-            </Tab>
-            <Tab borderRadius="md" bg="gray.50">
-              <Flex w="100%" h="100%" direction="column" justify="flex-start" textAlign="left">
-                <Text>Leads Convertidos</Text>
-                <Text fontSize={{ sm: 'xl', md: '2xl', lg: '2xl', xl: '4xl' }} fontWeight="bold">137</Text>
-                <HStack mt="4">
-                  <Icon as={FaArrowAltCircleUp} h="4" w="4" color="green.500" />
-                  <Text>14.23%</Text>
-                </HStack>
+            </TabList>
+            <TabPanels mt="2" h="100%" flex="1">
+              <TabPanel p="0" h="100%">
+                <Chart />
+              </TabPanel>
+              <TabPanel p="0" h="100%">
+                <Chart />
+              </TabPanel>
+              <TabPanel p="0" h="100%">
+                <Chart />
+              </TabPanel>
+              <TabPanel p="0" h="100%">
+                <Chart />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </GridItem>
+        <GridItem colSpan={1} rowSpan={2}>
+          <Flex direction="column" w="100%" h="100%" borderRadius="md" p="4" bg="white">
+            <Flex align="flex-end" justify="space-between" mb="6">
+              <Text fontSize="2xl" fontWeight="bold">Atividade</Text>
+              <NextLink href="/activity" passHref>
+                <Link colorScheme="teal" color="brand.700" fontWeight="bold">Ver mais</Link>
+              </NextLink>
+            </Flex>
+            <VStack spacing="8">
+              <Flex align="flex-start" justify="space-between" w="100%">
+                <Flex align="center">
+                  <Avatar name="Rafael Pignataro" size="md" mr="4"/>
+                  <Flex direction="column">
+                    <Text fontWeight="bold">Rafael Pignataro</Text>
+                    <Text>Adicionou um novo habilitado</Text>
+                  </Flex>
+                </Flex>
+                <Text>
+                  10m
+                </Text>
               </Flex>
-            </Tab>
-            <Tab borderRadius="md" bg="gray.50">
-              <Flex w="100%" h="100%" direction="column" justify="flex-start" textAlign="left">
-                <Text>Vendas</Text>
-                <Text fontSize={{ sm: 'xl', md: '2xl', lg: '2xl', xl: '4xl' }} fontWeight="bold">R$ 63.574,00</Text>
-                <HStack mt="4">
-                  <Icon as={FaArrowAltCircleDown} h="4" w="4" color="red.500" />
-                  <Text>6.56%</Text>
-                </HStack>
+              <Flex align="flex-start" justify="space-between" w="100%">
+                <Flex align="center">
+                  <Avatar name="Luiz Fernando" size="md" mr="4"/>
+                  <Flex direction="column">
+                    <Text fontWeight="bold">Luiz Fernando</Text>
+                    <Text>Adicionou um novo lead</Text>
+                  </Flex>
+                </Flex>
+                <Text>
+                  48m
+                </Text>
               </Flex>
-            </Tab>
-            <Tab borderRadius="md" bg="gray.50">
-              <Flex w="100%" h="100%" direction="column" justify="flex-start" textAlign="left">
-                <Text>Custos</Text>
-                <Text fontSize={{ sm: 'xl', md: '2xl', lg: '2xl', xl: '4xl' }} fontWeight="bold">R$ 38.429,00</Text>
-                <HStack mt="4">
-                  <Icon as={FaArrowAltCircleUp} h="4" w="4" color="green.500" />
-                  <Text>38.23%</Text>
-                </HStack>
+              <Flex align="flex-start" justify="space-between" w="100%">
+                <Flex align="center">
+                  <Avatar name="Gabriel Zago" size="md" mr="4"/>
+                  <Flex direction="column">
+                    <Text fontWeight="bold">Gabriel Zago</Text>
+                    <Text>Adicionou uma nova venda</Text>
+                  </Flex>
+                </Flex>
+                <Text>
+                  1h48m
+                </Text>
               </Flex>
-            </Tab>
-          </SimpleGrid>
-        </TabList>
-        <TabPanels mt="6" flex="1">
-          <TabPanel h="100%" display="flex" flexDirection="column" p="0">
-            <Flex align="center" justify="space-between" mb="4">
-              <Text fontSize="3xl" fontWeight="bold" color="gray.700">Leads</Text>
-              <Select placeholder="Selecione um período" defaultValue="6" w={{ base: '100%', md: '52' }}>
-                <option value="6">Últimos 6 meses</option>
-                <option value="12">Últimos 12 meses</option>
-                <option value="24">Últimos 24 meses</option>
-              </Select>
+              <Flex align="flex-start" justify="space-between" w="100%">
+                <Flex align="center">
+                  <Avatar name="Rafael Pignataro" size="md" mr="4"/>
+                  <Flex direction="column">
+                    <Text fontWeight="bold">Rafael Pignataro</Text>
+                    <Text>Adicionou um novo habilitado</Text>
+                  </Flex>
+                </Flex>
+                <Text>
+                  3h35m
+                </Text>
+              </Flex>
+            </VStack>
+          </Flex>
+        </GridItem>
+        <GridItem colSpan={1} rowSpan={2}>
+          <Flex direction="column" w="100%" h="100%" p="4" bg="white">
+            <Text fontSize="2xl" fontWeight="bold" mb="6">Habilitados por estado</Text>
+          </Flex>
+        </GridItem>
+        <GridItem colSpan={1} rowSpan={2}>
+          <Flex direction="column" w="100%" h="100%" borderRadius="md" p="4" bg="white">
+            <Flex align="flex-end" justify="space-between" mb="6">
+              <Text fontSize="2xl" fontWeight="bold">Ultimas vendas</Text>
+              <NextLink href="/activity" passHref>
+                <Link colorScheme="teal" color="brand.700" fontWeight="bold">Ver mais</Link>
+              </NextLink>
             </Flex>
-            <Box flex="1" h="100%">
-              <Chart />
-            </Box>
-          </TabPanel>
-          <TabPanel h="100%" display="flex" flexDirection="column" p="0">
-            <Flex align="center" justify="space-between" mb="4">
-              <Text fontSize="3xl" fontWeight="bold" color="gray.700">Leads Convertidos</Text>
-              <Select placeholder="Selecione um período" defaultValue="6" w={{ base: '100%', md: '52' }}>
-                <option value="6">Últimos 6 meses</option>
-                <option value="12">Últimos 12 meses</option>
-                <option value="24">Últimos 24 meses</option>
-              </Select>
-            </Flex>
-            <Box flex="1" h="100%">
-              <Chart />
-            </Box>
-          </TabPanel>
-          <TabPanel h="100%" display="flex" flexDirection="column" p="0">
-            <Flex align="center" justify="space-between" mb="4">
-              <Text fontSize="3xl" fontWeight="bold" color="gray.700">Vendas</Text>
-              <Select placeholder="Selecione um período" defaultValue="6" w={{ base: '100%', md: '52' }}>
-                <option value="6">Últimos 6 meses</option>
-                <option value="12">Últimos 12 meses</option>
-                <option value="24">Últimos 24 meses</option>
-              </Select>
-            </Flex>
-            <Box flex="1" h="100%">
-              <Chart />
-            </Box>
-          </TabPanel>
-          <TabPanel h="100%" display="flex" flexDirection="column" p="0">
-            <Flex align="center" justify="space-between" mb="4">
-              <Text fontSize="3xl" fontWeight="bold" color="gray.700">Custos</Text>
-              <Select placeholder="Selecione um período" defaultValue="6" w={{ base: '100%', md: '52' }}>
-                <option value="6">Últimos 6 meses</option>
-                <option value="12">Últimos 12 meses</option>
-                <option value="24">Últimos 24 meses</option>
-              </Select>
-            </Flex>
-            <Box flex="1" h="100%">
-              <Chart />
-            </Box>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+            <VStack spacing="8">
+              <Flex align="flex-start" justify="space-between" w="100%">
+                <Flex align="center">
+                  <Avatar name="Rafael Pignataro" size="md" mr="4"/>
+                  <Flex direction="column">
+                    <Text fontWeight="bold">Rafael Pignataro</Text>
+                    <Text>Adicionou um novo habilitado</Text>
+                  </Flex>
+                </Flex>
+                <Text>
+                  10m
+                </Text>
+              </Flex>
+              <Flex align="flex-start" justify="space-between" w="100%">
+                <Flex align="center">
+                  <Avatar name="Luiz Fernando" size="md" mr="4"/>
+                  <Flex direction="column">
+                    <Text fontWeight="bold">Luiz Fernando</Text>
+                    <Text>Adicionou um novo lead</Text>
+                  </Flex>
+                </Flex>
+                <Text>
+                  48m
+                </Text>
+              </Flex>
+              <Flex align="flex-start" justify="space-between" w="100%">
+                <Flex align="center">
+                  <Avatar name="Gabriel Zago" size="md" mr="4"/>
+                  <Flex direction="column">
+                    <Text fontWeight="bold">Gabriel Zago</Text>
+                    <Text>Adicionou uma nova venda</Text>
+                  </Flex>
+                </Flex>
+                <Text>
+                  1h48m
+                </Text>
+              </Flex>
+              <Flex align="flex-start" justify="space-between" w="100%">
+                <Flex align="center">
+                  <Avatar name="Rafael Pignataro" size="md" mr="4"/>
+                  <Flex direction="column">
+                    <Text fontWeight="bold">Rafael Pignataro</Text>
+                    <Text>Adicionou um novo habilitado</Text>
+                  </Flex>
+                </Flex>
+                <Text>
+                  3h35m
+                </Text>
+              </Flex>
+            </VStack>
+          </Flex>
+        </GridItem>
+      </Grid>
     </AppLayout>
   )
 }
 
 export const Chart = () => {
-  const getRandom7 = () => {
+  const getRandom7 = useMemo(() => {
     const final = [];
     for (let index = 0; index < 7; index++) {
       const num = Math.floor(Math.random() * 10) + 30;
@@ -151,21 +240,25 @@ export const Chart = () => {
     }
 
     return final;
-  }
+  }, []);
 
   return (
     <Line 
       data={{ 
-        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto'],
+        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho'],
         datasets: [
           {
-            data: getRandom7(),
+            data: getRandom7,
             label: 'Leads',
             pointBorderWidth: 2,
-            borderColor: colorTheme['600'],
-            pointBackgroundColor: colorTheme['300'],
-            pointBorderColor: colorTheme['900'],
-            pointRadius: 6, 
+            borderColor: colorTheme['700'],
+            pointRadius: 30, 
+            pointBackgroundColor: 'transparent',
+            pointBorderColor: 'transparent',
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: colorTheme['700'],
+            pointHoverBorderColor: 'white',
+            pointHoverBorderWidth: 4,
             tension: 0.3,
             fill: {
               target: 'origin',
@@ -190,13 +283,26 @@ export const Chart = () => {
         scales: {
           x: {
             grid: {
-              display: false
-            }
+              display: false,
+              drawTicks: true
+            },
+            ticks: {
+              color: '#787878',
+              font: {
+                weight: 'bold'
+              }
+            },
           },
           y: {
             min: 25, 
             grid: {
-              display: false
+              display: true,
+            },
+            ticks: {
+              color: '#787878',
+              font: {
+                weight: 'bold'
+              }
             }
           }
         }
