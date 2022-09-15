@@ -1,9 +1,6 @@
-import { Flex, TableContainer, Table as ChakraTable, Thead, Tr, Th, Tbody, Td, HStack, Button, Icon, IconButton, Text, Tag, Avatar } from "@chakra-ui/react"
-import { ColumnDef, createColumnHelper, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
-import { FaPen } from "react-icons/fa";
-import NextLink from 'next/link';
+import { Flex, TableContainer, Table as ChakraTable, Thead, Tr, Th, Tbody, Td, Button, Text } from "@chakra-ui/react"
+import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
 
-import { User } from '../../server/entities';
 import { Loading } from "@common/Loading";
 
 type TableProps<T> = {
