@@ -1,7 +1,8 @@
 import { Box, Flex, HStack, Icon, Select, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react"
-import { AppLayout } from "../layouts/AppLayout"
 import { FaArrowAltCircleDown, FaArrowAltCircleUp } from "react-icons/fa";
 import { useSession } from "next-auth/react";
+
+import { AppLayout } from "@layouts/AppLayout"
 
 import {
   Chart as Chartjs,

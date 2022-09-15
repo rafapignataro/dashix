@@ -3,8 +3,9 @@ import { Avatar, Button, CircularProgress, Drawer, DrawerContent, DrawerOverlay,
 import { FaArrowLeft, FaBars, FaCog, FaExclamationTriangle, FaHome, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { IconType } from 'react-icons/lib';
 import { useRouter } from 'next/router';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
+
 import { useUser } from '../../hooks/useUser';
 
 type AppLayoutProps = {
@@ -14,11 +15,9 @@ type AppLayoutProps = {
 }
 
 export const AppLayout = ({ title, returnPath, children }: AppLayoutProps) => {
-  const { loading, user } = useUser();
+  const { user } = useUser();
   const isMobile = useBreakpointValue({ base: true, lg: false,  });
   const { isOpen, onOpen, onClose } = useDisclosure()
-
-  if (loading) return <Loading size="100px" height="100vh" />;
 
   return (
     <Flex h="100vh">
@@ -43,10 +42,10 @@ export const AppLayout = ({ title, returnPath, children }: AppLayoutProps) => {
             {title && <Text as="h2" fontSize="2xl" fontWeight="bold">{title}</Text>}
           </Flex>
           <Menu>
-            <MenuButton as={Button} bg="transparent" px="2" rightIcon={<ChevronDownIcon />}>
+            <MenuButton as={Button} bg="transparent" px="0" rightIcon={!isMobile ? <ChevronDownIcon /> : null}>
               <Flex align="center">
-                <Avatar src={String(user?.image)} name={String(user?.name)} size="sm" mr="3" />
-                <Text>{String(user?.name)}</Text>
+                <Avatar src={String(user?.image)} name={String(user?.name)} size="sm" mr={{ base: 0, md:  3 }} />
+                {!isMobile && <Text>{String(user?.name)}</Text>}
               </Flex>
             </MenuButton>
             <MenuList>
@@ -107,7 +106,7 @@ export const NavItem = ({ currentPath, href,  icon, title }: NavItemProps) => {
 export const Aside = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { loading, user } = useUser();
+  const { user } = useUser();
 
   return (
     <Flex as="aside" h="100%" direction="column" w={{ base: '100%', lg: '60' }}>
@@ -117,6 +116,7 @@ export const Aside = () => {
       <VStack flex="1" spacing="2" align="flex-start" p="4">
         {['SUPER_ADMIN', 'ADMIN', 'USER'].includes(String(user?.role)) && <NavItem href="/" currentPath={router.pathname} icon={FaHome} title="Home"/>}
         {['SUPER_ADMIN', 'ADMIN'].includes(String(user?.role)) && <NavItem href="/users" currentPath={router.pathname} icon={FaUser} title="Usuários"/>}
+        {['SUPER_ADMIN', 'ADMIN', 'USER'].includes(String(user?.role)) && <NavItem href="/partners" currentPath={router.pathname} icon={FaUser} title="Habilitados"/>}
       </VStack>
       <VStack spacing="2" align="flex-start" p="4">
         <Button w="100%" colorScheme="gray" variant="solid" leftIcon={<Icon as={FaExclamationTriangle}/>} onClick={onOpen}>Reportar um problema</Button>
