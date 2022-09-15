@@ -1,31 +1,30 @@
-import { Flex, VStack, FormControl, FormLabel, Input, Select, Button, Alert, AlertIcon } from "@chakra-ui/react";
+import { Flex, VStack, FormControl, FormLabel, Input, Select, Button } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import { Loading } from "@common/Loading";
 
-export type MutateUser = {
-  id: string;
-  name: string;
-  email: string;
-  role: 'SUPER_ADMIN' | 'ADMIN' | 'USER'
-}
+import { User } from '../../../../server/entities'
 
 type FormProps = {
-  initialValues?: MutateUser;
+  initialValues?: User | null;
   onSubmit: (values: FormFields) => void;
   loading?: boolean;
+  isUpdate?: boolean;
 }
 
-export type FormFields = Omit<MutateUser, 'id'>;
+export type FormFields = Omit<User, 'id'>;
 
-export const Form = ({ initialValues, onSubmit, loading }: FormProps) => {
-  const { register, handleSubmit, formState: { errors } } = useForm<MutateUser>({
-    defaultValues: initialValues
+export const Form = ({ initialValues, onSubmit, loading, isUpdate }: FormProps) => {
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormFields>({
+    defaultValues: initialValues || {}
   });
+
+  if(isUpdate && !initialValues) return <Loading />
 
   return (
     <Flex as="form" w={{ base: '100%'}} marginX="auto" direction="column" onSubmit={handleSubmit(onSubmit)}>
       <Flex flex="1" direction="column" mb="8">
         <VStack align="center" spacing="4">
-          <FormControl>
+        <FormControl>
             <FormLabel htmlFor="name">
               Nome
             </FormLabel>
@@ -50,7 +49,7 @@ export const Form = ({ initialValues, onSubmit, loading }: FormProps) => {
         </VStack>
       </Flex>
       <Flex align="center" justify="flex-end" mb="4">
-        <Button type="submit" colorScheme="purple" w={{ base: '100%', md: '48' }} isLoading={loading}>Salvar</Button>
+        <Button type="submit" colorScheme="purple" w={{ base: '100%', md: '48' }} isLoading={isSubmitting}>Salvar</Button>
       </Flex>
     </Flex>
   )

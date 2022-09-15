@@ -1,31 +1,26 @@
-import type { GetServerSideProps, NextPage } from 'next'
+import type { NextPage } from 'next'
 
-import { getServerSession } from '../../utils/getServerSession'
 
-import { UpdateUser } from '../../components/modules/users/mutate';
-import { serverRedirect } from '../../utils/serverRedirect';
+import { UpdateUser } from '../../components/modules/users/Update';
 
-type UpdateUserPageProps = {
-  id: string;
-}
 
-const UpdateUserPage: NextPage<UpdateUserPageProps> = ({ id }: UpdateUserPageProps) => <UpdateUser id={id} />
+const UpdateUserPage: NextPage = () => <UpdateUser />
 
 export default UpdateUserPage
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getServerSession(ctx);
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   const session = await getServerSession(ctx);
 
-  if(!session || !session.user) return serverRedirect('/login')
+//   if(!session || !session.user) return serverRedirect('/login')
 
-  if (!['SUPER_ADMIN', 'ADMIN'].includes(session.user.role)) return serverRedirect('/');
+//   if (!['SUPER_ADMIN', 'ADMIN'].includes(session.user.role)) return serverRedirect('/');
 
-  const { id } = ctx.query;
+//   const { id } = ctx.query;
 
-  return {
-    props: {
-      session,
-      id
-    }
-  }
-}
+//   return {
+//     props: {
+//       session,
+//       id
+//     }
+//   }
+// }
