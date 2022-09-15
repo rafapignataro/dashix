@@ -1,10 +1,11 @@
 import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext } from 'react';
+
+import { Loading } from '@common/Loading';
 
 
 type CartContextProps = {
-  loading: boolean;
   user: Session['user'] | null
 }
 
@@ -17,14 +18,10 @@ const CartContext = createContext({} as CartContextProps);
 export default function UserProvider({ children }: UserProviderProps) {
   const { data: session } = useSession();
 
-  let user = null;
-
-  const resolved = session && session.user;
-
-  if (resolved) user = session.user;
+  if (!session || !session.user) return <Loading minH="100vh" />;
 
 	return (
-		<CartContext.Provider value={{ loading: !resolved, user }}>
+		<CartContext.Provider value={{ user: session.user }}>
 			{children}
 		</CartContext.Provider>
 	);
