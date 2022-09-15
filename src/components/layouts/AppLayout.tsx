@@ -22,7 +22,7 @@ export const AppLayout = ({ title, returnPath, children }: AppLayoutProps) => {
   return (
     <Flex h="100vh">
       {!isMobile && <Aside />}
-      <Flex as="main" flex="1" direction="column" p="4" w="calc(100vw - var(--chakra-sizes-60))" h="100%">
+      <Flex as="main" flex="1" direction="column" p="4" w="calc(100vw - var(--chakra-sizes-60))" h="100%" bg="gray.50">
         <Flex as="header" h="8" align="center" justify="space-between" mb="6">
           <Flex align="center">
             {isMobile && (
