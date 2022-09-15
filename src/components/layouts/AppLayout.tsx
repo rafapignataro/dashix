@@ -86,9 +86,9 @@ export const NavItem = ({ currentPath, href,  icon, title }: NavItemProps) => {
 
   if((href === '/' && currentPath === '/') || pathNodes.includes(href.split('/')[1])) return (
     <NextLink href={href} passHref>
-      <Link display="flex" alignItems="center" bg="purple.100" _hover={{ bg: 'purple.200' }} w="100%" p="2" borderRadius="md">
-        <Icon as={icon} h="6" w="6" mr="4" color="purple.700" />
-        <Text color="purple.700" >{title}</Text>
+      <Link display="flex" alignItems="center" bg="brand.100" _hover={{ bg: 'brand.200' }} w="100%" p="2" borderRadius="md">
+        <Icon as={icon} h="6" w="6" mr="4" color="brand.700" />
+        <Text color="brand.700" >{title}</Text>
       </Link>
     </NextLink>
   )
@@ -136,7 +136,7 @@ export const Aside = () => {
           <ModalFooter>
             <HStack spacing="4">
               <Button variant="ghost" onClick={onClose}>Cancelar</Button>
-              <Button colorScheme="purple">
+              <Button colorScheme="brand">
                 Enviar
               </Button>
             </HStack>
@@ -150,7 +150,7 @@ export const Aside = () => {
 export const Loading = ({ size = '50px', ...props }: FlexProps & { size?: string }) => {
   return (
     <Flex flex="1" justify="center" align="center" w="100%" {...props}>
-      <CircularProgress isIndeterminate size="100px" color="purple.500"/>
+      <CircularProgress isIndeterminate size="100px" color="brand.500"/>
     </Flex>
   )
 }

@@ -28,7 +28,7 @@ export const ShowPartners = () => {
             icon={<Icon as={FaPen} h="4" w="4" />} 
             aria-label="edit button" 
             variant="ghost" 
-            colorScheme="purple"  
+            colorScheme="brand"  
           />
         </NextLink>
       ,
@@ -70,10 +70,10 @@ export const ShowPartners = () => {
           <InputLeftElement pointerEvents="none">
             <Icon as={FaSearch} color="gray.300" />
           </InputLeftElement>
-          <Input type="text" placeholder="Procurar" size="md" _focus={{ borderColor: 'purple.500' }} />
+          <Input type="text" placeholder="Procurar" size="md" _focus={{ borderColor: 'brand.500' }} />
         </InputGroup>
         <NextLink href="/partners/create" passHref>
-          <Button as="a" leftIcon={<Icon as={FaPlus} />} colorScheme="purple" px={{ base: 8, md: 6}}>
+          <Button as="a" leftIcon={<Icon as={FaPlus} />} colorScheme="brand" px={{ base: 8, md: 6}}>
             Adicionar
           </Button>
         </NextLink>

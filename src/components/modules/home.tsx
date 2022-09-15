@@ -29,13 +29,15 @@ Chartjs.register(
 
 import { Line } from 'react-chartjs-2';
 
+import { colorTheme } from "../../styles/theme";
+
 
 export const Home = () => {
   const { data: session } = useSession();
 
   return (
     <AppLayout title={`Bem vindo, ${session?.user.name?.split(' ')[0]}`}>
-      <Tabs flex="1" variant="soft-rounded" colorScheme="purple" w="100%" display="flex" flexDirection="column">
+      <Tabs flex="1" variant="soft-rounded" colorScheme="brand" w="100%" display="flex" flexDirection="column">
         <TabList>
           <SimpleGrid columns={{ base: 2, md: 4 }} spacing="4" w="100%">
             <Tab borderRadius="md" bg="gray.50">
@@ -159,16 +161,15 @@ export const Chart = () => {
           {
             data: getRandom7(),
             label: 'Leads',
-            borderColor: '#d6bcfa',
-            backgroundColor: '#44337a',
             pointBorderWidth: 2,
-            pointBackgroundColor: '#d6bcfa',
-            pointBorderColor: '#44337a',
+            borderColor: colorTheme['600'],
+            pointBackgroundColor: colorTheme['300'],
+            pointBorderColor: colorTheme['900'],
             pointRadius: 6, 
             tension: 0.3,
             fill: {
               target: 'origin',
-              above: '#e9d8fd',
+              above: colorTheme['50'],
             }
           }
         ]

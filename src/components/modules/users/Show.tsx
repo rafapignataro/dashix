@@ -28,7 +28,7 @@ export const ShowUsers = () => {
             icon={<Icon as={FaPen} h="4" w="4" />} 
             aria-label="edit button" 
             variant="ghost" 
-            colorScheme="purple"  
+            colorScheme="brand"  
           />
         </NextLink>
       ,
@@ -36,7 +36,7 @@ export const ShowUsers = () => {
     columnHelper.display({
       id: 'role',
       header: () => 'PERMISSÃO',
-      cell: info => <Tag colorScheme="purple">{info.row.original.role}</Tag>,
+      cell: info => <Tag colorScheme="brand">{info.row.original.role}</Tag>,
     }),
     columnHelper.display({
       id: 'name',
@@ -60,10 +60,10 @@ export const ShowUsers = () => {
           <InputLeftElement pointerEvents="none">
             <Icon as={FaSearch} color="gray.300" />
           </InputLeftElement>
-          <Input type="text" placeholder="Procurar" size="md" _focus={{ borderColor: 'purple.500' }} />
+          <Input type="text" placeholder="Procurar" size="md" _focus={{ borderColor: 'brand.500' }} />
         </InputGroup>
         <NextLink href="/users/create" passHref>
-          <Button as="a" leftIcon={<Icon as={FaPlus} />} colorScheme="purple">
+          <Button as="a" leftIcon={<Icon as={FaPlus} />} colorScheme="brand">
             Adicionar
           </Button>
         </NextLink>

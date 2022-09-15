@@ -45,7 +45,7 @@ export const Login = () => {
             <FormLabel htmlFor="email">E-mail</FormLabel>
             <Input id="email" type="email" placeholder="E-mail" disabled={loading} {...register('email', { required: true })}/>
           </FormControl>
-          <Button type="submit" colorScheme="purple" w="100%" isLoading={loading}>LOGIN</Button>
+          <Button type="submit" colorScheme="brand" w="100%" isLoading={loading}>LOGIN</Button>
         </VStack>
       </Flex>
     </AuthLayout>

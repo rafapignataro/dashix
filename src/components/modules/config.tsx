@@ -8,7 +8,7 @@ export const Config = () => {
 
   return (
     <AppLayout title="Configurações">
-      <Tabs flex="1" variant="soft-rounded" colorScheme="purple">
+      <Tabs flex="1" variant="soft-rounded" colorScheme="brand">
         <TabList>
           <HStack spacing="4">
             <Tab>Perfil</Tab>
@@ -30,7 +30,7 @@ export const Config = () => {
                 </FormControl>
               </VStack>
               <Flex align="center" justify="flex-end" mt="6" w="100%">
-                <Button colorScheme="purple" w={{ base: '100%', md: '48' }}>Salvar</Button>
+                <Button colorScheme="brand" w={{ base: '100%', md: '48' }}>Salvar</Button>
               </Flex>
             </Flex>
           </TabPanel>

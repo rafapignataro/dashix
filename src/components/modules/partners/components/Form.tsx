@@ -87,7 +87,7 @@ export const Form = ({ initialValues, onSubmit, loading, isUpdate }: FormProps) 
         </VStack>
       </Flex>
       <Flex align="center" justify="flex-end" mb="4">
-        <Button type="submit" colorScheme="purple" w={{ base: '100%', md: '48' }} isLoading={loading}>Salvar</Button>
+        <Button type="submit" colorScheme="brand" w={{ base: '100%', md: '48' }} isLoading={loading}>Salvar</Button>
       </Flex>
     </Flex>
   )
