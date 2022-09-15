@@ -14,7 +14,7 @@ type FormProps = {
 export type FormFields = Omit<Partner, 'id'>;
 
 export const Form = ({ initialValues, onSubmit, loading, isUpdate }: FormProps) => {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormFields>({
+  const { register, handleSubmit, formState: { errors } } = useForm<FormFields>({
     defaultValues: initialValues || {}
   });
 
@@ -32,43 +32,43 @@ export const Form = ({ initialValues, onSubmit, loading, isUpdate }: FormProps) 
             <FormLabel htmlFor="name">
               Nome
             </FormLabel>
-            <Input id="name" placeholder="Nome" {...register("name", { required: true })} disabled={isSubmitting}/>
+            <Input id="name" placeholder="Nome" {...register("name", { required: true })} disabled={loading}/>
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="name">
               E-mail
             </FormLabel>
-            <Input id="email" placeholder="Email" type="email" {...register("email", { required: true })} disabled={isSubmitting}/>
+            <Input id="email" placeholder="Email" type="email" {...register("email", { required: true })} disabled={loading}/>
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="ddd">
               DDD
             </FormLabel>
-            <Input id="ddd" placeholder="DDD" {...register("ddd", { required: true })} disabled={isSubmitting}/>
+            <Input id="ddd" placeholder="DDD" {...register("ddd", { required: true })} disabled={loading}/>
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="phone">
               Telefone
             </FormLabel>
-            <Input id="phone" placeholder="Phone" type="phone" {...register("phone", { required: true })} disabled={isSubmitting}/>
+            <Input id="phone" placeholder="Phone" type="phone" {...register("phone", { required: true })} disabled={loading}/>
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="address">
             Endereço
             </FormLabel>
-            <Input id="address" placeholder="Endereço" {...register("address", { required: true })} disabled={isSubmitting}/>
+            <Input id="address" placeholder="Endereço" {...register("address", { required: true })} disabled={loading}/>
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="city">
               Cidade
             </FormLabel>
-            <Input id="city" placeholder="city" {...register("city", { required: true })} disabled={isSubmitting}/>
+            <Input id="city" placeholder="city" {...register("city", { required: true })} disabled={loading}/>
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="stateId">
               Estado
             </FormLabel>
-            <Select id="stateId" {...register("stateId", { required: true })} disabled={isSubmitting}>
+            <Select id="stateId" {...register("stateId", { required: true })} disabled={loading}>
               {states.map(state => <option key={state.id} value={state.id}>{state.name}</option>)}
             </Select>
           </FormControl>
@@ -76,18 +76,18 @@ export const Form = ({ initialValues, onSubmit, loading, isUpdate }: FormProps) 
             <FormLabel htmlFor="space">
               Espaço
             </FormLabel>
-            <Input id="space" placeholder="Cidade" {...register("space")} disabled={isSubmitting}/>
+            <Input id="space" placeholder="Cidade" {...register("space")} disabled={loading}/>
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="instagram">
               Instagram
             </FormLabel>
-            <Input id="instagram" placeholder="Instagram" type="email" {...register("instagram")} disabled={isSubmitting}/>
+            <Input id="instagram" placeholder="Instagram" type="email" {...register("instagram")} disabled={loading}/>
           </FormControl>
         </VStack>
       </Flex>
       <Flex align="center" justify="flex-end" mb="4">
-        <Button type="submit" colorScheme="purple" w={{ base: '100%', md: '48' }} isLoading={isSubmitting}>Salvar</Button>
+        <Button type="submit" colorScheme="purple" w={{ base: '100%', md: '48' }} isLoading={loading}>Salvar</Button>
       </Flex>
     </Flex>
   )
