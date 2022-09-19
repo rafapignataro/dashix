@@ -7,15 +7,11 @@ import { theme } from '../styles/theme';
 
 import { ServerRouter } from '../server/routes';
 
-import UserProvider from '../hooks/useUser';
-
 function App({ Component, pageProps }: AppProps) {
 	return (
 		<ChakraProvider theme={theme} resetCSS>
       <SessionProvider session={pageProps.session}>
-        <UserProvider>
-          <Component {...pageProps} />
-        </UserProvider>
+        <Component {...pageProps} />
       </SessionProvider>
 		</ChakraProvider>
 	);

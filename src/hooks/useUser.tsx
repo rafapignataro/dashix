@@ -1,34 +1,34 @@
 import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 
 import { Loading } from '@common/Loading';
-
+import { useRouter } from 'next/router';
 
 type CartContextProps = {
-  user: Session['user'] | null
+  user: Session['user'] | null;
 }
 
 type UserProviderProps = {
   children: React.ReactNode;
 }
 
-const CartContext = createContext({} as CartContextProps);
+const UserContext = createContext({} as CartContextProps);
 
 export default function UserProvider({ children }: UserProviderProps) {
   const { data: session } = useSession();
 
-  if (!session || !session.user) return <Loading minH="100vh" />;
+  if ((!session || !session.user)) return <Loading minH="100vh" />;
 
 	return (
-		<CartContext.Provider value={{ user: session.user }}>
+		<UserContext.Provider value={{ user: session.user }}>
 			{children}
-		</CartContext.Provider>
+		</UserContext.Provider>
 	);
 }
 
 export function useUser() {
-	const context = useContext(CartContext);
+	const context = useContext(UserContext);
 
 	if (!context) throw new Error('useUser must me used inside an UserProvider.');
 

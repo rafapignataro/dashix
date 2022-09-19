@@ -6,7 +6,8 @@ import { useRouter } from 'next/router';
 import { signOut } from 'next-auth/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
-import { useUser } from '../../hooks/useUser';
+import UserProvider, { useUser } from '../../hooks/useUser';
+import { useEffect, useMemo, useState } from 'react';
 
 type AppLayoutProps = {
   title?: string;
@@ -15,61 +16,108 @@ type AppLayoutProps = {
 }
 
 export const AppLayout = ({ title, returnPath, children }: AppLayoutProps) => {
-  const { user } = useUser();
   const isMobile = useBreakpointValue({ base: true, lg: false,  });
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
-    <Flex h="100vh">
-      {!isMobile && <Aside />}
-      <Flex as="main" flex="1" direction="column" p="4" w="calc(100vw - var(--chakra-sizes-60))" h="100%" bg="gray.50">
-        <Flex as="header" h="8" align="center" justify="space-between" mb="6">
-          <Flex align="center">
-            {isMobile && (
-              <IconButton 
-                variant="link" 
-                size="lg" 
-                icon={<Icon as={FaBars} h="6" w="6" />} 
-                aria-label="Open drawer button" 
-                onClick={onOpen}
-              />
-            )}
-            {returnPath && (
-              <NextLink href="/users" passHref>
-                <IconButton as="a" icon={<Icon as={FaArrowLeft} />} colorScheme="gray" variant="link" aria-label="back anchor" mr="2" />
-              </NextLink>
-            )}
-            {title && <Text as="h2" fontSize="2xl" fontWeight="bold">{title}</Text>}
-          </Flex>
-          <Menu>
-            <MenuButton as={Button} bg="transparent" px={{ base: 0, md: 1 }} rightIcon={!isMobile ? <ChevronDownIcon /> : null}>
-              <Flex align="center">
-                <Avatar src={String(user?.image)} name={String(user?.name)} size="sm" mr={{ base: 0, md:  3 }} />
-                {!isMobile && <Text>{String(user?.name)}</Text>}
-              </Flex>
-            </MenuButton>
-            <MenuList>
-              <NextLink href="/config" passHref>
-                <MenuItem as="a" display="flex" alignItems="center">
-                  <Icon as={FaCog} h="4" w="4" mr="4"/>
-                  <Text>Configurações</Text>
-                </MenuItem>
-              </NextLink>
-              <MenuItem display="flex" alignItems="center" onClick={() => signOut()}>
-                <Icon as={FaSignOutAlt} h="4" w="4" mr="4"/>
-                <Text>Sair</Text>
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        </Flex>
-        {children}
+    <UserProvider>
+      <Flex h="100vh">
+        {!isMobile && <Aside />}
+        <Main returnPath={returnPath} title={title} openDrawer={onOpen}>
+          {children}
+        </Main>
+        <Drawer onClose={onClose} isOpen={isOpen} placement="left">
+          <DrawerOverlay />
+          <DrawerContent>
+            <Aside />
+          </DrawerContent>
+        </Drawer>
       </Flex>
-      <Drawer onClose={onClose} isOpen={isOpen} placement="left">
-        <DrawerOverlay />
-        <DrawerContent>
-          <Aside />
-        </DrawerContent>
-      </Drawer>
+    </UserProvider>
+  )
+}
+
+type MainProps = {
+  title?: string;
+  returnPath?: string;
+  openDrawer: () => void;
+  children: React.ReactNode;
+}
+
+const Main = ({ title, returnPath, openDrawer, children }: MainProps) => {
+  const isMobile = useBreakpointValue({ base: true, lg: false,  });
+  const { user } = useUser();
+  const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const handleStart = (url: string) => {
+      console.log(`Loading: ${url}`)
+      setLoading(true);
+    }
+
+    const handleStop = () => {
+      setLoading(false);
+    }
+
+    router.events.on('routeChangeStart', handleStart)
+    router.events.on('routeChangeComplete', handleStop)
+    router.events.on('routeChangeError', handleStop)
+
+    return () => {
+      router.events.off('routeChangeStart', handleStart)
+      router.events.off('routeChangeComplete', handleStop)
+      router.events.off('routeChangeError', handleStop)
+    }
+  }, [router])
+
+  const Header = useMemo(() => (
+    <Flex as="header" h="8" align="center" justify="space-between" mb="6">
+      <Flex align="center">
+        {isMobile && (
+          <IconButton 
+            variant="link" 
+            size="lg" 
+            icon={<Icon as={FaBars} h="6" w="6" />} 
+            aria-label="Open drawer button" 
+            onClick={openDrawer}
+          />
+        )}
+        {returnPath && (
+          <NextLink href="/users" passHref>
+            <IconButton as="a" icon={<Icon as={FaArrowLeft} />} colorScheme="gray" variant="link" aria-label="back anchor" mr="2" />
+          </NextLink>
+        )}
+        {title && <Text as="h2" fontSize="2xl" fontWeight="bold">{title}</Text>}
+      </Flex>
+      <Menu>
+        <MenuButton as={Button} bg="transparent" px={{ base: 0, md: 1 }} rightIcon={!isMobile ? <ChevronDownIcon /> : null}>
+          <Flex align="center">
+            <Avatar src={String(user?.image)} name={String(user?.name)} size="sm" mr={{ base: 0, md:  3 }} />
+            {!isMobile && <Text>{String(user?.name)}</Text>}
+          </Flex>
+        </MenuButton>
+        <MenuList>
+          <NextLink href="/config" passHref>
+            <MenuItem as="a" display="flex" alignItems="center">
+              <Icon as={FaCog} h="4" w="4" mr="4"/>
+              <Text>Configurações</Text>
+            </MenuItem>
+          </NextLink>
+          <MenuItem display="flex" alignItems="center" onClick={() => signOut()}>
+            <Icon as={FaSignOutAlt} h="4" w="4" mr="4"/>
+            <Text>Sair</Text>
+          </MenuItem>
+        </MenuList>
+      </Menu>
+    </Flex>
+  ), [isMobile])
+
+  return (
+    <Flex as="main" flex="1" direction="column" p="4" w="calc(100vw - var(--chakra-sizes-60))" h="100%" bg="gray.50">
+      {Header}
+      {loading ? <Loading/> : children}
     </Flex>
   )
 }

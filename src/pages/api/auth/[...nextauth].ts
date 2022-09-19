@@ -2,14 +2,13 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import EmailProvider from 'next-auth/providers/email';
 import sendgridMailer from '@sendgrid/mail';
-import getConfig from 'next/config'
-import path from 'path';
 
 sendgridMailer.setApiKey(String(process.env.SMTP_PASSWORD));
 
-import { prisma } from "../../../providers/prisma";
-import { emailFrom, emailServer } from "../../../providers/sendgrid";
-import { templateProvider } from "../../../providers/templateProvider";
+import { prisma } from "@providers/prisma";
+import { emailFrom, emailServer } from "@providers/sendgrid";
+import { templateProvider } from "@providers/templateProvider";
+import { supabase } from "@providers/supabase";
 
 export const nextAuthOptions: NextAuthOptions = {
   providers: [
@@ -21,10 +20,13 @@ export const nextAuthOptions: NextAuthOptions = {
         url,
       }) => {
         try {
-          const { serverRuntimeConfig } = getConfig()
+          const emailVerificationTemplate  = await supabase.storage.from('dashix').download('templates/emailVerification.hbs')
 
-          const templatePath = path.join(serverRuntimeConfig.PROJECT_ROOT, 'src', 'providers', 'templateProvider', 'templates', 'emailVerification.hbs');
-          const html = await templateProvider(templatePath, {
+          if(!emailVerificationTemplate.data || emailVerificationTemplate.error) throw emailVerificationTemplate.error;
+
+          const templateHTML = await emailVerificationTemplate.data.text();
+
+          const html = await templateProvider(templateHTML, {
             redirectUrl: url
           });
 

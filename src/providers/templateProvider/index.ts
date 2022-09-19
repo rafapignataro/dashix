@@ -1,10 +1,7 @@
 import handlebars from 'handlebars';
-import fs from 'fs';
 
-export const templateProvider = async (templatePath: string, variables: Record<string, unknown>) => {
-  const templateHTML = fs.readFileSync(templatePath);
-
-	const createTemplate = handlebars.compile(templateHTML.toString());
+export const templateProvider = async (templateHTML: string, variables: Record<string, unknown>) => {
+	const createTemplate = handlebars.compile(templateHTML);
 
 	return createTemplate(variables);
 };

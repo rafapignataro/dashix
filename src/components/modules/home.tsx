@@ -264,7 +264,7 @@ export const Chart = () => {
               target: 'origin',
               above: colorTheme['50'],
             }
-          }
+          },
         ]
       }} 
       height="100%"
@@ -284,7 +284,6 @@ export const Chart = () => {
           x: {
             grid: {
               display: false,
-              drawTicks: true
             },
             ticks: {
               color: '#787878',
@@ -297,6 +296,8 @@ export const Chart = () => {
             min: 25, 
             grid: {
               display: true,
+              drawBorder: true,
+              borderDash: [4, 4]
             },
             ticks: {
               color: '#787878',

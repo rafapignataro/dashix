@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 
-import { EmailVerification } from '../components/modules/emailVerification'
+import { EmailVerification } from '@modules/emailVerification'
 
 const emailVerificationPage: NextPage = () => <EmailVerification />
 

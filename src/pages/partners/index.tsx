@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 
-import { ShowPartners } from '../../components/modules/partners/Show'
+import { ShowPartners } from '@modules/partners/Show'
 
 const PartnersPage: NextPage = () => <ShowPartners />
 

@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextPage } from 'next'
 
 import { getServerSession } from '../../utils/getServerSession'
 
-import { CreatePartner } from '../../components/modules/partners/Create'
+import { CreatePartner } from '@modules/partners/Create'
 import { serverRedirect } from '../../utils/serverRedirect'
 
 const CreatePartnerPage: NextPage = () => <CreatePartner />

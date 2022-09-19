@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 
-import { Logout } from '../components/modules/logout'
+import { Logout } from '@modules/logout'
 
 const LogoutPage: NextPage = () => <Logout />
 
