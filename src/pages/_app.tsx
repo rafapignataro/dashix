@@ -19,8 +19,8 @@ function App({ Component, pageProps }: AppProps) {
 
 export default withTRPC<ServerRouter>({
   config({ ctx }) {
-    const url = process.env.NEXT_PUBLIC_VERCEL_URL
-      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/trpc`
+    const url = process.env.NODE_ENV === 'production'
+      ? `https://dashix.vercel.app/api/trpc`
       : "http://localhost:3000/api/trpc";
 
     return { url };
