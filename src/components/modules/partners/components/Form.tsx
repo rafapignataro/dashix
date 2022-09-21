@@ -1,4 +1,4 @@
-import { Flex, VStack, FormControl, FormLabel, Input, Select, Button } from "@chakra-ui/react";
+import { Flex, VStack, FormControl, FormLabel, Input, Select, Button, Box, SkeletonText, Skeleton } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { trpc } from "@utils/trpc";
 import { Loading } from "@common/Loading";
@@ -8,21 +8,23 @@ type FormProps = {
   initialValues?: Partner | null;
   onSubmit: (values: FormFields) => void;
   loading?: boolean;
-  isUpdate?: boolean;
 }
 
 export type FormFields = Omit<Partner, 'id'>;
 
-export const Form = ({ initialValues, onSubmit, loading, isUpdate }: FormProps) => {
+export const Form = ({ initialValues, onSubmit, loading }: FormProps) => {
   const { register, handleSubmit, formState: { errors } } = useForm<FormFields>({
     defaultValues: initialValues || {}
   });
 
   const { data: states } = trpc.useQuery(['states.findAll']);
 
-  if(isUpdate && !initialValues) return <Loading />
-
-  if (!states) return <Loading />;
+  if (!states) return (
+    <Box w="100%">
+      <SkeletonText mt='4'  />
+      <Skeleton mt='4'  />
+    </Box>
+  )
 
   return (
     <Flex as="form" w={{ base: '100%'}} marginX="auto" direction="column" onSubmit={handleSubmit(onSubmit)}>

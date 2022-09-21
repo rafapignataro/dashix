@@ -1,4 +1,4 @@
-import { useToast } from "@chakra-ui/react"
+import { useToast, Stack, Skeleton, SkeletonText } from "@chakra-ui/react"
 import { useRouter } from "next/router";
 
 import { trpc } from "@utils/trpc";
@@ -29,10 +29,9 @@ export const UpdateUser = () => {
       })
     },
   });
-
   const userId = String(router.query.id);
 
-  const { data: user } = trpc.useQuery(['users.findById', { id: userId }]);
+  const { data: user, isLoading } = trpc.useQuery(['users.findById', { id: userId }]);
 
   const handleUpdate = async (data: FormFields) => {
     mutation.mutate({ id: userId, ...data })
@@ -40,7 +39,25 @@ export const UpdateUser = () => {
 
   return (
     <AppLayout title="Atualizar usuário" returnPath="/users">
-      <Form onSubmit={handleUpdate} loading={mutation.isLoading} initialValues={user} isUpdate={true}/>
+      {isLoading && (
+        <Stack w="100%">
+          <SkeletonText noOfLines={2} w="50%" />
+          <Skeleton height="20px" />
+          <SkeletonText noOfLines={2} w="50%" />
+          <Skeleton height="20px" />
+          <SkeletonText noOfLines={2} w="50%" />
+          <Skeleton height="20px" />
+          <SkeletonText noOfLines={2} w="50%" />
+          <Skeleton height="20px" />
+          <SkeletonText noOfLines={2} w="50%" />
+          <Skeleton height="20px" />
+          <SkeletonText noOfLines={2} w="50%" />
+          <Skeleton height="20px" />
+          <SkeletonText noOfLines={2} w="50%" />
+          <Skeleton height="20px" />
+        </Stack>
+      )}
+      {!isLoading && <Form onSubmit={handleUpdate} loading={mutation.isLoading} initialValues={user} />}
     </AppLayout>
   )
 }

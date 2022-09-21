@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { Avatar, Button, CircularProgress, Drawer, DrawerContent, DrawerOverlay, Flex, FlexProps, FormControl, FormLabel, HStack, Icon, IconButton, Input, Link, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Textarea, useBreakpointValue, useDisclosure, VStack } from "@chakra-ui/react"
+import { Avatar, Button, CircularProgress, Drawer, DrawerContent, DrawerOverlay, Flex, FlexProps, FormControl, FormLabel, HStack, Icon, IconButton, Input, Link, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Progress, Text, Textarea, useBreakpointValue, useDisclosure, VStack } from "@chakra-ui/react"
 import { FaArrowLeft, FaBars, FaCog, FaExclamationTriangle, FaHome, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { IconType } from 'react-icons/lib';
 import { useRouter } from 'next/router';
@@ -115,9 +115,10 @@ const Main = ({ title, returnPath, openDrawer, children }: MainProps) => {
   ), [isMobile])
 
   return (
-    <Flex as="main" flex="1" direction="column" p="4" w="calc(100vw - var(--chakra-sizes-60))" h="100%" bg="gray.50">
+    <Flex as="main" flex="1" direction="column" p="4" w="calc(100vw - var(--chakra-sizes-60))" h="100%" bg="gray.50" position="relative">
+      {loading && <Progress value={80} isIndeterminate  size="sm" colorScheme="brand" position="absolute" top="0" left="0" w="100%" />}
       {Header}
-      {loading ? <Loading/> : children}
+      {children}
     </Flex>
   )
 }

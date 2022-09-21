@@ -1,4 +1,4 @@
-import { Flex, TableContainer, Table as ChakraTable, Thead, Tr, Th, Tbody, Td, Button, Text } from "@chakra-ui/react"
+import { Flex, TableContainer, Table as ChakraTable, Thead, Tr, Th, Tbody, Td, Button, Text, Skeleton } from "@chakra-ui/react"
 import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table"
 
 import { Loading } from "@common/Loading";
@@ -23,7 +23,11 @@ export const Table = <T extends {}>({ data, columns }: TableProps<T>) => {
     autoResetPageIndex: false
   });
 
-  if (!data) return <Loading />
+  if (!data) return (
+    <Flex flex="1" overflowY="hidden" direction="column" w="100%">
+      <Skeleton height="100%" />
+    </Flex>
+  )
 
   return (
     <Flex flex="1" overflowY="hidden" direction="column" w="100%">

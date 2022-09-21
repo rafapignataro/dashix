@@ -1,4 +1,4 @@
-import { useToast } from "@chakra-ui/react"
+import { Skeleton, SkeletonText, Stack, useToast } from "@chakra-ui/react"
 import { useRouter } from "next/router";
 
 import { trpc } from "@utils/trpc";
@@ -32,7 +32,7 @@ export const UpdatePartner = () => {
 
   const partnerId = String(router.query.id);
 
-  const { data: partner } = trpc.useQuery(['partners.findById', { id: partnerId }]);
+  const { data: partner, isLoading } = trpc.useQuery(['partners.findById', { id: partnerId }]);
 
   const handleUpdate = async ({ space, instagram, ...data}: FormFields) => {
     mutation.mutate({ 
@@ -45,7 +45,25 @@ export const UpdatePartner = () => {
 
   return (
     <AppLayout title="Atualizar habilitado" returnPath="/partners">
-      <Form onSubmit={handleUpdate} loading={mutation.isLoading} initialValues={partner} isUpdate={true}/>
+      {isLoading && (
+        <Stack w="100%">
+          <SkeletonText noOfLines={2} w="50%" />
+          <Skeleton height="20px" />
+          <SkeletonText noOfLines={2} w="50%" />
+          <Skeleton height="20px" />
+          <SkeletonText noOfLines={2} w="50%" />
+          <Skeleton height="20px" />
+          <SkeletonText noOfLines={2} w="50%" />
+          <Skeleton height="20px" />
+          <SkeletonText noOfLines={2} w="50%" />
+          <Skeleton height="20px" />
+          <SkeletonText noOfLines={2} w="50%" />
+          <Skeleton height="20px" />
+          <SkeletonText noOfLines={2} w="50%" />
+          <Skeleton height="20px" />
+        </Stack>
+      )}
+      {!isLoading && <Form onSubmit={handleUpdate} loading={mutation.isLoading} initialValues={partner} />}
     </AppLayout>
   )
 }
